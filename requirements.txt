@@ -1,0 +1,4 @@
+ipykernel==6.29.5
+matplotlib==3.10.1
+numba==0.61.2
+numpy==2.2.4
