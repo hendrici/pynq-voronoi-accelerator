@@ -1,0 +1,78 @@
+============================================================
+ VORONOI PERFORMANCE BENCHMARK LOG
+ Date: Tue Apr 22 22:24:59 EDT 2025
+ Output file: logs/run_04-22-2025_22-24-23.log
+============================================================
+
+--------------------[ PYNQ-Z1 SYSTEM INFORMATION ]--------------------
+FPGA Chip:          Xilinx Zynq-7020 (XC7Z020-1CLG400C)
+CPU (PS):           ARM Cortex-A9 (dual-core)
+PS Clock Speed:     650 MHz
+PL Clock Speed:     100 MHz (default FCLK_CLK0)
+Cores:              2
+Threads per Core:   1
+Memory:             512 MiB (shared between PS and PL)
+
+--------------------[ HOST MACHINE INFORMATION ]--------------------
+Hostname:           XXXXXXXXXXXXXXXXXXXXXXXXX
+CPU:                AMD Ryzen 7 4800H with Radeon Graphics
+Clock Speed:        2894.595 MHz
+Cores:              16
+Threads per Core:   2
+Memory:             7.4Gi
+
+--------------------[ PYNQ BENCHMARK RESULTS ]---------------------
+-------------------------------
+| PYNQ VORONOI IMPLEMENTATION |
+-------------------------------
+Array size: 4096
+[PYNQ] pynq_voronoi_hls.cpp: 0.605872 seconds
+
+-------------------------------
+| PARALLEL C (CPU) VORONOI IMPLEMENTATION |
+-------------------------------
+Array size: 4096
+[PYNQ] pynq_voronoi_omp.c: 3.583120 seconds
+
+-------------------------------
+| SEQUENTIAL C VORONOI IMPLEMENTATION |
+-------------------------------
+Array size: 4096
+[PYNQ] pynq_voronoi_seq_c.c: 6.573427 seconds
+
+--------------------[ PERSONAL MACHINE BENCHMARK RESULTS ]---------------------
+> Running voronoi_omp.c...
+-------------------------------------------
+| PARALLEL C (CPU) VORONOI IMPLEMENTATION |
+-------------------------------------------
+Array size: 4096
+[C] voronoi_omp.c: 0.058189 seconds
+
+> Running voronoi_omp_gpu.c...
+-------------------------------------------
+| PARALLEL C (GPU) VORONOI IMPLEMENTATION |
+-------------------------------------------
+Array size: 4096
+[C] voronoi_omp_gpu.c: 0.075866 seconds
+
+> Running voronoi_seq_c.c...
+---------------------------------------
+| SEQUENTIAL C VORONOI IMPLEMENTATION |
+---------------------------------------
+Array size: 4096
+[C] voronoi_seq_c.c: 0.196247 seconds
+
+> Running voronoi_numba.py...
+--------------------------------------------------
+| PARALLEL PYTHON (NUMBA) VORONOI IMPLEMENTATION |
+--------------------------------------------------
+Array size: 4096
+[PY] voronoi_numba.py: 1.7785472869873047 seconds
+
+> Running voronoi_seq_py.py...
+--------------------------------------------
+| SEQUENTIAL PYTHON VORONOI IMPLEMENTATION |
+--------------------------------------------
+Array size: 4096
+[PY] voronoi_seq_py.py: 433.8441228866577 seconds
+
