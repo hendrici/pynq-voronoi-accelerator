@@ -4,14 +4,12 @@
  * Project:         Master's Project - PYNQ Voronoi Acceleration
  * Organization:    Grand Valley State University
  * 
- * Description:     Parallel Voronoi diagram generator using OpenMP Offloading for GPU.
- *                  Each point in a 2D grid is assigned the index of the nearest seed,
- *                  using Euclidean distance.
+ * Description:     Parallel Voronoi diagram generator using OpenMP Offloading for GPU. Each point 
+ *                  in a 2D grid is assigned the index of the nearest seed, using Euclidean 
+ *                  distance. This implementation uses OpenMP's `target teams` and `parallel for 
+ *                  simd` constructs to run the main computation on a target device such as a GPU.
  *
- *                  This implementation uses OpenMP's `target teams` and `parallel for simd`
- *                  constructs to run the main computation on a target device such as a GPU.
- *
- * Compilation:     gcc -O2 voronoi_parallel_gpu.c -o voronoi -lm
+ * Compilation:     gcc voronoi_openmp_gpu.c -o voronoi_openmp_gpu -O3 -lm -fopenmp
  **************************************************************************************************/
 
 /* Libraries */
@@ -22,20 +20,20 @@
 #include <string.h>
 
 /* Macro definitions */
-#define SEED_ROW_SIZE 4
-#define SEED_COL_SIZE 2
+#define PROBLEM_SIZE    4096    // Grid size (N x N)
+#define NUM_SEEDS       4       // Number of seeds
 
 /* Function declarations */
 void calculate_voronoi(int, double *, double *);
 
 int main(int argc, char *argv[]) {
-    int size = 4096;
+    int size = PROBLEM_SIZE;
 
-    // Allocate memory for the Voronoi output grid
+    // Dynamically allocate memory for the Voronoi output grid
     double(*area)[size] = calloc(size, sizeof *area);
 
     // Define fixed seed locations (corners of the grid)
-    double seed_vals[SEED_ROW_SIZE][SEED_COL_SIZE] = {
+    double seed_vals[NUM_SEEDS][2] = {
         {0, 0},
         {0, size - 1},
         {size - 1, size - 1},
@@ -56,7 +54,7 @@ int main(int argc, char *argv[]) {
     printf("| PARALLEL C (GPU) VORONOI IMPLEMENTATION |\n");
     printf("-------------------------------------------\n");
     printf("Array size: %d\n", size);
-    printf("[C] voronoi_omp_gpu.c: %.3f seconds\n", end - start);
+    printf("[C] voronoi_omp_gpu.c: %f seconds\n", end - start);
 
     // Clean up memory
     free(seeds);
@@ -79,11 +77,11 @@ int main(int argc, char *argv[]) {
 void calculate_voronoi(int size, double *pSeeds, double *pArea) {
     double closest_seed, closest_distance, dist;
 
-    // Number of GPU teams (can be tuned)
+    // Number of GPU threads (can be tuned)
     int num_blocks = omp_get_max_threads();
 
     // Offload loop to GPU using OpenMP target directives
-    #pragma omp target teams num_teams(num_blocks) map(to: pSeeds[0:SEED_ROW_SIZE * SEED_COL_SIZE], size) map(from: pArea[0:size * size])
+    #pragma omp target teams num_teams(num_blocks) map(to: pSeeds[0:NUM_SEEDS * 2], size) map(from: pArea[0:size * size])
     #pragma omp distribute parallel for collapse(2) firstprivate(closest_seed, closest_distance, dist)
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
@@ -91,12 +89,13 @@ void calculate_voronoi(int size, double *pSeeds, double *pArea) {
             closest_distance = pow(size, 2);  // Max possible distance
 
             // Compare current point to each seed
-            for (int k = 0; k < SEED_ROW_SIZE; k++) {
+            for (int k = 0; k < NUM_SEEDS; k++) {
                 dist = sqrt(
-                    pow(pSeeds[k * SEED_COL_SIZE + 0] - i, 2) +
-                    pow(pSeeds[k * SEED_COL_SIZE + 1] - j, 2)
+                    pow(pSeeds[k * 2 + 0] - i, 2) +
+                    pow(pSeeds[k * 2 + 1] - j, 2)
                 );
 
+                // Update closest seed index
                 if (dist < closest_distance) {
                     closest_distance = dist;
                     closest_seed = k;

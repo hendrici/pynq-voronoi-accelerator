@@ -4,12 +4,11 @@
 # Project:        Master's Project - PYNQ Voronoi Acceleration
 # Organization:   Grand Valley State University
 #
-# Description:    Parallel implementation of a Voronoi diagram using Numba.
-#                 This version utilizes `njit` and `prange` for improved performance.
-#
-#                 The program computes which seed is closest to each coordinate in a 2D grid
-#                 using Euclidean distance. The result is a 2D array that maps each coordinate
-#                 to the index of its closest seed. 
+# Description:    Parallel implementation of a Voronoi diagram using Numba. This version 
+#                 utilizes `njit` and `prange` for improved performance. The program computes
+#                 which seed is closest to each coordinate in a 2D grid using Euclidean 
+#                 distance. The result is a 2D array that maps each coordinate to the index 
+#                 of its closest seed. 
 # -------------------------------------------------------------------------------------------
 
 import numpy as np
@@ -73,4 +72,4 @@ if __name__ == "__main__":
     print("| PARALLEL PYTHON (NUMBA) VORONOI IMPLEMENTATION |")
     print("--------------------------------------------------")
     print(f"Array size: {size}")
-    print(f"[PY] voronoi_numba.py: {elapsed:.3f} seconds")
+    print(f"[PY] voronoi_numba.py: {elapsed} seconds")

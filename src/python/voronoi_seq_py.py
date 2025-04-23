@@ -3,7 +3,7 @@
 # Author:         Isaiah Hendrick (Adapted from Dr. Christian Trefftz)
 # Project:        Master's Project - PYNQ Voronoi Acceleration
 # Organization:   Grand Valley State University
-
+#
 # Description:    Sequential implementation of a Voronoi diagram in Python. This program 
 #                 computes which seed is closest to each coordinate in a 2D grid using 
 #                 Euclidean distance. The result is a 2D array mapping each coordinate 
@@ -68,4 +68,4 @@ if __name__ == "__main__":
     print("| SEQUENTIAL PYTHON VORONOI IMPLEMENTATION |")
     print("--------------------------------------------")
     print(f"Array size: {size}")
-    print(f"[PY] voronoi_seq_py.py: {elapsed:.3f} seconds")
+    print(f"[PY] voronoi_seq_py.py: {elapsed} seconds")
