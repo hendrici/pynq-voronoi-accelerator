@@ -5,7 +5,7 @@
 ============================================================
 
 --------------------[ PYNQ-Z1 SYSTEM INFORMATION ]--------------------
-FPGA Chip:          Xilinx Zynq-7020 (XC7Z020-1CLG400C)
+FPGA Chip:          Xilinx Zynq-7020 (xc7z020clg400-1)
 CPU (PS):           ARM Cortex-A9 (dual-core)
 PS Clock Speed:     650 MHz
 PL Clock Speed:     100 MHz (default FCLK_CLK0)

@@ -98,7 +98,7 @@ info:
 	@echo "" >> $(LOG_FILE)
 
 	@echo "--------------------[ PYNQ-Z1 SYSTEM INFORMATION ]--------------------" >> $(LOG_FILE)
-	@echo "FPGA Chip:          Xilinx Zynq-7020 (XC7Z020-1CLG400C)" >> $(LOG_FILE)
+	@echo "FPGA Chip:          Xilinx Zynq-7020 (xc7z020clg400-1)" >> $(LOG_FILE)
 	@echo "CPU (PS):           ARM Cortex-A9 (dual-core)" >> $(LOG_FILE)
 	@echo "PS Clock Speed:     650 MHz" >> $(LOG_FILE)
 	@echo "PL Clock Speed:     100 MHz (default FCLK_CLK0)" >> $(LOG_FILE)
